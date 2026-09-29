@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>升息週期現金流健檢</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef1f4;--card:#fff;--ink:#101828;--mut:#5b6675;--line:#cbd2da;--ac:#0b7a75;--acbg:#dff1ef;--warn:#c2410c;--warnbg:#fde9dd;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e141b;--card:#171f29;--ink:#e8edf2;--mut:#98a4b3;--line:#2c3746;--ac:#4fc4bc;--acbg:#123634;--warn:#ff9a6b;--warnbg:#3a2418}}
+:root[data-theme="dark"]{--bg:#0e141b;--card:#171f29;--ink:#e8edf2;--mut:#98a4b3;--line:#2c3746;--ac:#4fc4bc;--acbg:#123634;--warn:#ff9a6b;--warnbg:#3a2418}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.75 "Noto Sans TC",system-ui,sans-serif}
+main{max-width:640px;margin:0 auto;padding:20px 16px 48px}
+h1,h2,.big{font-family:"Noto Serif TC",serif;font-weight:900;line-height:1.35;margin:0 0 12px}
+h1{font-size:28px}h2{font-size:21px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px;margin:14px 0}
+.mut{color:var(--mut);font-size:14px}
+table{width:100%;border-collapse:collapse;font-size:15px}
+td,th{padding:8px 4px;border-bottom:1px solid var(--line);text-align:left}
+th{font-weight:500;color:var(--mut)}
+td.n{text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
+.scroll{overflow-x:auto}
+.prog{height:6px;background:var(--line);border-radius:3px;margin:0 0 6px}
+.prog i{display:block;height:100%;background:var(--ac);border-radius:3px;transition:width .3s}
+label.q{display:block;font-weight:700;margin:20px 0 8px}
+input[type=number]{width:100%;font:inherit;padding:12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
+.opts{display:grid;gap:8px}
+.opts label{display:block;padding:12px;border:1px solid var(--line);border-radius:8px;cursor:pointer}
+.opts input{position:absolute;opacity:0}
+.opts input:checked+span{color:var(--ac);font-weight:700}
+.opts label:has(input:checked){border-color:var(--ac);background:var(--acbg)}
+.opts label:has(input:focus-visible){outline:2px solid var(--ac)}
+button{font:inherit;font-weight:700;padding:13px 20px;border-radius:8px;border:0;background:var(--ac);color:#fff;cursor:pointer}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) button{color:#06201f}}
+:root[data-theme="dark"] button{color:#06201f}
+a.btn{display:block;text-align:center;text-decoration:none;font-weight:700;padding:13px 20px;border-radius:8px;background:var(--ac);color:#fff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) a.btn{color:#06201f}}
+:root[data-theme="dark"] a.btn{color:#06201f}
+button.g{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.row{display:flex;gap:10px;margin-top:22px}.row button{flex:1}
+.err{color:var(--warn);font-size:14px;min-height:20px;margin-top:10px}
+.page{display:none}.page.on{display:block}
+.score{font-size:64px;line-height:1.1}
+.bar{margin:10px 0}.bar b{display:flex;justify-content:space-between;font-weight:500;font-size:14px}
+.bar div{height:8px;background:var(--line);border-radius:4px;margin-top:4px}.bar div i{display:block;height:100%;border-radius:4px;background:var(--ac)}
+.find{padding:12px 14px;border-left:4px solid var(--ac);background:var(--acbg);border-radius:0 8px 8px 0;margin:12px 0}
+.find.w{border-color:var(--warn);background:var(--warnbg)}
+</style>
+</head>
+<body><main>
+<div class="prog"><i id="pg" style="width:0"></i></div>
+<div class="mut" id="stepLbl"></div>
+
+<section class="page on" id="p0">
+<h1>升息週期現金流健檢</h1>
+<p class="mut">5 分鐘、10 題、不留個資。資料只在你的手機裡計算。</p>
+<div class="card">
+<h2>最近發生了什麼</h2>
+<p>美國聯準會 9 月 17 日升息 1 碼至 3.75%–4.00%，是睽違三年再度升息，點陣圖並暗示年底前可能再升一次。台灣央行同日維持重貼現率 2%，沒有跟進。</p>
+<p class="mut">經濟學家註記：台灣近期的漲價，主要來自國際油價與能源成本，升息是各國央行對通膨的回應，不是漲價的直接原因。升息對一般家庭最直接的管道，是浮動利率貸款與匯率。</p>
+</div>
+<div class="card">
+<h2>具體漲了什麼（主計總處，8 月，年增率）</h2>
+<div class="scroll"><table>
+<tr><th>項目</th><th style="text-align:right">年增</th></tr>
+<tr><td>整體 CPI</td><td class="n">2.04%</td></tr>
+<tr><td>核心 CPI（扣除蔬果、能源）</td><td class="n">2.3%</td></tr>
+<tr><td>油料費</td><td class="n">11.86%</td></tr>
+<tr><td>機票</td><td class="n">10.75%</td></tr>
+<tr><td>蛋類</td><td class="n">8.7%</td></tr>
+<tr><td>燃氣</td><td class="n">7.82%</td></tr>
+<tr><td>家庭用電</td><td class="n">4.47%</td></tr>
+<tr><td>外食費</td><td class="n">3.17%</td></tr>
+<tr><td>房租</td><td class="n">1.69%</td></tr>
+</table></div>
+<p class="mut">CPI 已連續 4 個月高於 2% 警戒線；生產端物價（PPI）年增 16.75%，成本壓力尚未完全傳到消費端。</p>
+</div>
+<div class="card">
+<h2>台灣 20–40 歲的平均所得（114 年）</h2>
+<div class="scroll"><table>
+<tr><th>年齡</th><th style="text-align:right">平均年所得</th><th style="text-align:right">約月所得</th></tr>
+<tr><td>未滿 30 歲</td><td class="n">58.7 萬</td><td class="n">4.89 萬</td></tr>
+<tr><td>30–34 歲</td><td class="n">77 萬</td><td class="n">6.42 萬</td></tr>
+<tr><td>35–39 歲</td><td class="n">86 萬</td><td class="n">7.17 萬</td></tr>
+<tr><td>全體所得收入者</td><td class="n">76.3 萬</td><td class="n">6.36 萬</td></tr>
+</table></div>
+<p class="mut">來源：主計總處 114 年家庭收支調查（2026/8/16 公布）。這是「平均數」，且為稅前、含財產所得與自用住宅設算租金，不等於薪水袋的實領。全國每人可支配所得中位數為 36.7 萬（月約 3.06 萬）。</p>
+</div>
+<div class="row"><button onclick="go(1)">開始健檢</button></div>
+</section>
+
+<section class="page" id="p1"><h2>基本資料</h2>
+<label class="q">Q1. 你的年齡區間</label>
+<div class="opts" data-k="age"><label><input type="radio" name="age" value="0"><span>20–29 歲</span></label><label><input type="radio" name="age" value="1"><span>30–34 歲</span></label><label><input type="radio" name="age" value="2"><span>35–39 歲</span></label></div>
+<label class="q" for="inc">Q2. 每月稅前總收入（薪資＋其他，元）</label>
+<input id="inc" type="number" inputmode="numeric" min="0" placeholder="例如 55000">
+<div class="err" id="e1"></div><div class="row"><button class="g" onclick="go(0)">上一頁</button><button onclick="next(1)">下一頁</button></div></section>
+
+<section class="page" id="p2"><h2>每月支出</h2>
+<label class="q" for="fix">Q3. 每月固定支出（房租或房貸、保險、水電網路、家用，元）</label>
+<input id="fix" type="number" inputmode="numeric" min="0" placeholder="不含信貸、車貸、分期">
+<label class="q" for="var">Q4. 每月變動支出（餐飲、交通、娛樂、購物，元）</label>
+<input id="var" type="number" inputmode="numeric" min="0" placeholder="例如 15000">
+<div class="err" id="e2"></div><div class="row"><button class="g" onclick="go(1)">上一頁</button><button onclick="next(2)">下一頁</button></div></section>
+
+<section class="page" id="p3"><h2>存款與負債</h2>
+<label class="q" for="cash">Q5. 可隨時動用的現金存款（不含股票、基金、幣，元）</label>
+<input id="cash" type="number" inputmode="numeric" min="0" placeholder="例如 120000">
+<label class="q" for="debt">Q6. 每月債務還款合計（信貸、車貸、卡費分期，不含 Q3 已算的房貸，元；沒有請填 0）</label>
+<input id="debt" type="number" inputmode="numeric" min="0" placeholder="0">
+<div class="err" id="e3"></div><div class="row"><button class="g" onclick="go(2)">上一頁</button><button onclick="next(3)">下一頁</button></div></section>
+
+<section class="page" id="p4"><h2>升息敏感度</h2>
+<label class="q">Q7. 你有浮動利率的房貸或信貸嗎？</label>
+<div class="opts"><label><input type="radio" name="flt" value="10"><span>沒有</span></label><label><input type="radio" name="flt" value="5"><span>有</span></label><label><input type="radio" name="flt" value="3"><span>不確定</span></label></div>
+<label class="q">Q8. 假設每月還款增加 3,000 元（壓力測試情境），你會怎麼處理？</label>
+<div class="opts"><label><input type="radio" name="hit" value="10"><span>不需要調整</span></label><label><input type="radio" name="hit" value="5"><span>壓縮生活開銷</span></label><label><input type="radio" name="hit" value="0"><span>要動用存款或借錢</span></label></div>
+<div class="err" id="e4"></div><div class="row"><button class="g" onclick="go(3)">上一頁</button><button onclick="next(4)">下一頁</button></div></section>
+
+<section class="page" id="p5"><h2>物價與投資習慣</h2>
+<label class="q">Q9. 過去一年，你的每月總支出增加了多少？</label>
+<div class="opts"><label><input type="radio" name="inf" value="10"><span>幾乎沒變（約 0–3%）</span></label><label><input type="radio" name="inf" value="7"><span>約 3–5%</span></label><label><input type="radio" name="inf" value="3"><span>約 6–10%</span></label><label><input type="radio" name="inf" value="0"><span>超過 10%</span></label></div>
+<label class="q">Q10. 你的投資資金主要來自？</label>
+<div class="opts"><label><input type="radio" name="src" value="10"><span>閒錢（不影響生活）</span></label><label><input type="radio" name="src" value="4"><span>部分是生活費</span></label><label><input type="radio" name="src" value="0"><span>大多是生活費或借貸</span></label><label><input type="radio" name="src" value="10"><span>我沒有投資</span></label></div>
+<div class="err" id="e5"></div><div class="row"><button class="g" onclick="go(4)">上一頁</button><button onclick="finish()">看經濟學家結論</button></div></section>
+
+<section class="page" id="p6">
+<h1>經濟學家結論</h1>
+<div class="card"><div class="mut">你的現金流健康分數</div><div class="big score" id="score"></div><div id="tier" style="font-weight:700"></div></div>
+<div class="card"><h2>你填的內容</h2><div class="scroll"><table id="ans"></table></div></div>
+<div class="card"><h2>逐項對照</h2><div id="bars"></div></div>
+<div class="card"><h2>根據以上資料</h2><div id="finds"></div></div>
+<div class="card"><h2>結語</h2><p id="close"></p>
+<p class="mut">本表僅供自我檢視，不構成投資或財務建議。緩衝月數 3 個月與 6 個月是常見的經驗法則，不是官方標準；分數與階層切點為本表自訂。</p></div>
+<div class="card"><h2>想把最低分那一項補起來？</h2><p>1. 先追蹤我的主頁，我會持續拆解升息週期的現金流與風險管理。</p><p>2. 把這一頁截圖，私訊傳給我，我免費幫你看最需要先處理的那一項。</p><a class="btn" href="https://www.instagram.com/panther_0079/" target="_blank" rel="noopener">追蹤主頁，截圖後私訊我</a><p class="mut" style="margin-top:12px">免費諮詢僅針對現金流盤點與觀念，不提供個別商品買賣建議。</p></div>
+<div class="row"><button class="g" onclick="go(0)">重新健檢</button></div>
+</section>
+</main>
+<script>
+var cur=0,V={},avg=[58.7,77,86],lbl=["未滿30歲","30–34歲","35–39歲"];
+function $(i){return document.getElementById(i)}
+function go(n){document.querySelectorAll('.page').forEach(function(p){p.classList.remove('on')});$('p'+n).classList.add('on');cur=n;
+$('pg').style.width=(n/6*100)+'%';$('stepLbl').textContent=n>0&&n<6?('第 '+n+' / 5 頁'):'';window.scrollTo(0,0)}
+function num(id){var v=$(id).value;return v===''?NaN:parseFloat(v)}
+function rad(n){var e=document.querySelector('input[name='+n+']:checked');return e?parseFloat(e.value):NaN}
+function next(n){var e=$('e'+n);e.textContent='';
+if(n==1){if(isNaN(rad('age'))||!(num('inc')>0)){e.textContent='請選擇年齡並填入大於 0 的月收入。';return}V.age=rad('age');V.inc=num('inc')}
+if(n==2){if(isNaN(num('fix'))||isNaN(num('var'))||num('fix')<0||num('var')<0){e.textContent='兩題都要填數字（不能是負數）。';return}V.fix=num('fix');V.vr=num('var')}
+if(n==3){if(isNaN(num('cash'))||isNaN(num('debt'))||num('cash')<0||num('debt')<0){e.textContent='兩題都要填數字，沒有請填 0。';return}V.cash=num('cash');V.debt=num('debt')}
+if(n==4){if(isNaN(rad('flt'))||isNaN(rad('hit'))){e.textContent='請兩題都選一個答案。';return}V.flt=rad('flt');V.hit=rad('hit')}
+go(n+1)}
+function band(x,t,s){for(var i=0;i<t.length;i++){if(x>=t[i])return s[i]}return s[s.length-1]}
+function finish(){var e=$('e5');if(isNaN(rad('inf'))||isNaN(rad('src'))){e.textContent='請兩題都選一個答案。';return}
+V.inf=rad('inf');V.src=rad('src');
+var out=V.fix+V.vr+V.debt,buf=V.cash/Math.max(out,1),fr=(V.fix+V.debt)/V.inc,left=V.inc-out,sr=left/V.inc,stress=left-3000,ann=V.inc*12/10000;
+var s1=band(buf,[6,3,1],[20,14,7,0]),s2=(fr<=.4)?20:(fr<=.55)?14:(fr<=.7)?7:0,s3=band(sr,[.2,.1,0],[20,14,7,0]),s4=V.flt+V.hit,s5=V.inf+V.src;
+var tot=Math.round(s1+s2+s3+s4+s5);
+var tier=tot>=85?'頂層：先算清楚再行動':tot>=65?'中層：有概念，缺一兩項具體數字':tot>=40?'初階：風險放得比緩衝大':'底層：先盤點收支，再談投資';
+$('score').textContent=tot+' / 100';$('tier').textContent=tier;
+var it=[['現金緩衝',s1],['固定負擔',s2],['剩餘現金流',s3],['升息敏感度',s4],['物價與資金來源',s5]];
+$('bars').innerHTML=it.map(function(x){return '<div class="bar"><b><span>'+x[0]+'</span><span>'+x[1]+' / 20</span></b><div><i style="width:'+(x[1]/20*100)+'%"></i></div></div>'}).join('');
+var a=avg[V.age],d=(ann/a-1)*100,f=[];
+f.push([d<0,'你的年所得約 '+ann.toFixed(1)+' 萬，'+(d>=0?'高於':'低於')+lbl[V.age]+'平均（'+a+' 萬）約 '+Math.abs(d).toFixed(0)+'%。平均數會被高薪者拉高，且含財產所得與設算租金，低於平均不代表落後，只代表基準點不同。']);
+f.push([buf<3,'你的現金緩衝約 '+buf.toFixed(1)+' 個月的支出，'+(buf>=6?'高於':buf>=3?'落在':'低於')+'常見的 3–6 個月經驗區間。'+(buf>=6?'台銀 1 年期定存約 1.7%，低於預估通膨 2.07%，實質利率約 −0.37%，超額閒置現金會慢慢失去購買力。':'升息與物價上行時，緩衝是你唯一不必靠運氣的東西。')]);
+f.push([fr>.55,'你的固定負擔占收入 '+(fr*100).toFixed(0)+'%，'+(fr>.55?'偏高':'在可控範圍')+'。固定支出比例越高，每月能調整的空間越小，升息對你的影響越無法用「省一點」吸收。']);
+f.push([stress<0,'壓力測試（每月多 3,000 元）後，你每月剩餘約 '+Math.round(stress).toLocaleString()+' 元。'+(stress<0?'這代表小幅升息就會轉為赤字。':'仍為正數，具備吸收空間。')]);
+var pi=V.inf==10?'約 0–3%':V.inf==7?'約 3–5%':V.inf==3?'約 6–10%':'超過 10%';
+f.push([V.inf<=3,'你自己感受到的支出增幅'+pi+'，對照 8 月整體 CPI 2.04%、外食 3.17%。'+(V.inf<=3?'你的個人通膨高於官方統計，通常是外食、油料、房租等高頻項目占比較大，值得逐項檢查。':'與官方統計大致相當。')]);
+$('finds').innerHTML=f.map(function(x){return '<div class="find'+(x[0]?' w':'')+'">'+x[1]+'</div>'}).join('');
+var weak=it.slice().sort(function(a,b){return a[1]-b[1]})[0][0];
+$('close').textContent='總分 '+tot+'，最需要先處理的是「'+weak+'」。升息週期不必猜方向，先把這一項補到中間水準，再談任何進階操作。建議三個月後用同一份表再測一次，看分數有沒有動。';
+var lab=function(n){return document.querySelector('input[name='+n+']:checked').nextElementSibling.textContent},w=function(x){return Math.round(x).toLocaleString()+' 元'};
+var rows=[['Q1 年齡區間',lab('age')],['Q2 每月稅前總收入',w(V.inc)],['Q3 每月固定支出',w(V.fix)],['Q4 每月變動支出',w(V.vr)],['Q5 現金存款',w(V.cash)],['Q6 每月債務還款',w(V.debt)],['Q7 浮動利率貸款',lab('flt')],['Q8 每月多還 3,000 元',lab('hit')],['Q9 過去一年支出增幅',lab('inf')],['Q10 投資資金來源',lab('src')],['換算：固定負擔占收入',(fr*100).toFixed(0)+'%'],['換算：現金緩衝',buf.toFixed(1)+' 個月'],['換算：每月剩餘',w(left)]];
+$('ans').innerHTML=rows.map(function(r){return '<tr><td>'+r[0]+'</td><td class="n">'+r[1]+'</td></tr>'}).join('');
+go(6)}
+</script>
+</body>
+</html>
